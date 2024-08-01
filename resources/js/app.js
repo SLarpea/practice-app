@@ -5,8 +5,10 @@ import { createApp, h } from 'vue';
 import { createInertiaApp } from '@inertiajs/vue3';
 import { resolvePageComponent } from 'laravel-vite-plugin/inertia-helpers';
 import { ZiggyVue } from '../../vendor/tightenco/ziggy';
+import VueSweetalert2 from 'vue-sweetalert2';
+import 'sweetalert2/dist/sweetalert2.min.css';
 
-const appName = import.meta.env.VITE_APP_NAME || 'Laravel';
+const appName = import.meta.env.VITE_APP_NAME || 'Practice App';
 
 createInertiaApp({
     title: (title) => `${title} - ${appName}`,
@@ -15,9 +17,13 @@ createInertiaApp({
         return createApp({ render: () => h(App, props) })
             .use(plugin)
             .use(ZiggyVue)
+            .use(VueSweetalert2)
             .mount(el);
     },
     progress: {
+        delay: 250,
         color: '#4B5563',
+        includeCSS: true,
+        showSpinner: true,
     },
 });

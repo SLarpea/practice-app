@@ -1,9 +1,23 @@
 <script setup>
+import { ref, toRefs, watch, onMounted, onBeforeMount } from "vue";
 import NewLayout from '@/Layouts/NewLayout.vue';
+
+const loading = ref(false);
+
+onBeforeMount(() => {
+  loading.value = true;
+});
+
+onMounted(() => {
+  setTimeout(() => {
+    loading.value = false;
+  }, 1000);
+});
+
 </script>
 
 <template>
-    <NewLayout title="Dashboard" module="Home">
+    <NewLayout title="Dashboard" module="Home" :loading="loading">
         <!-- Info boxes -->
         <div class="row">
           <div class="col-12 col-sm-6 col-md-3">

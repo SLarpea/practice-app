@@ -1,6 +1,7 @@
 <script setup>
 import { ref } from 'vue';
-import { Head, Link, router } from '@inertiajs/vue3';
+import { Head, router } from '@inertiajs/vue3';
+import PageLoader from '@/Components/PageLoader.vue';
 import NavBar from '@/Components/Navbar.vue';
 import SideBar from '@/Components/Sidebar.vue';
 import Footer from '@/Components/Footer.vue';
@@ -8,6 +9,7 @@ import Footer from '@/Components/Footer.vue';
 defineProps({
     title: String,
     module: String,
+    loading: Boolean
 });
 
 const showingNavigationDropdown = ref(false);
@@ -19,29 +21,16 @@ const switchToTeam = (team) => {
         preserveState: false,
     });
 };
-
-const logout = () => {
-    router.post(route('logout'));
-};
 </script>
 
 <template>
     <div class="wrapper">
-        <div
-            class="preloader flex-column justify-content-center align-items-center"
-        >
-            <div class="load">
-                <hr/><hr/><hr/><hr/>
-            </div>
-        </div>
+        <PageLoader :loading="loading" />
         <Head :title="title" />
-
         <NavBar />
-
         <SideBar :title="title" />
 
         <div class="content-wrapper">
-            <!-- Content Header (Page header) -->
             <div class="content-header">
                 <div class="container-fluid">
                     <div class="row mb-2">
@@ -50,12 +39,10 @@ const logout = () => {
                                 <li class="breadcrumb-item">{{ module }}</li>
                                 <li class="breadcrumb-item active">{{ title }}</li>
                             </ol>
-                        </div><!-- /.col -->
-                        
-                    </div><!-- /.row -->
-                </div><!-- /.container-fluid -->
+                        </div>
+                    </div>
+                </div>
             </div>
-            <!-- /.content-header -->
             <section class="content">
                 <div class="container-fluid">
                     <main>

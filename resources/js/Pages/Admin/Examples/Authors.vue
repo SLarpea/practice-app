@@ -1,14 +1,29 @@
 <script setup>
-import { ref } from "vue";
+import { ref, toRefs, watch, onMounted, onBeforeMount } from "vue";
 import { router } from "@inertiajs/vue3";
 import NewLayout from "@/Layouts/NewLayout.vue";
+import Pagination from "@/Components/Pagination.vue";
 
-defineProps({
-  title: String,
+const props = defineProps({
+  authors: Object,
 });
+
+const { authors } = toRefs(props);
+const loading = ref(false);
+
+onBeforeMount(() => {
+  loading.value = true;
+});
+
+onMounted(() => {
+  setTimeout(() => {
+    loading.value = false;
+  }, 1000);
+});
+
 </script>
 <template>
-  <NewLayout title="Authors" module="Examples">
+  <NewLayout title="Authors" module="Examples" :loading="loading">
     <div class="card">
       <div class="card-table-header">
         <span class="card-table-title float-left">
@@ -33,19 +48,6 @@ defineProps({
         </div>
       </div>
       <div class="card-body">
-        <!-- <div class="card-table-filters">
-            <div class="float-left">
-                <div class="input-group input-group-sm mb-3">
-                  <input type="text" class="form-control">
-                  <div class="input-group-append">
-                    <span class="input-group-text"><i class="fa-solid fa-magnifying-glass"></i></span>
-                  </div>
-                </div>
-            </div>
-            <div class="float-right">
-                Hello
-            </div>
-        </div> -->
         <div class="row">
           <div class="col-sm-6 col-md-7 col-lg-5 col-xl-4">
             <div class="input-group input-group-sm mb-3">
@@ -99,51 +101,22 @@ defineProps({
         >
           <thead>
             <tr>
-              <th>FullName</th>
-              <th>Famous Book</th>
-              <th style="width: 150px">Published Books</th>
+              <th>First Name</th>
+              <th>Last Name</th>
+              <th>Email</th>
             </tr>
           </thead>
           <tbody>
-            <tr>
-              <td>Jane Austen</td>
-              <td>Pride and Prejudice</td>
-              <td>90</td>
-            </tr>
-            <tr>
-              <td>Charles Dickens</td>
-              <td>Great Expectations</td>
-              <td>90</td>
-            </tr>
-            <tr>
-              <td>Mark Twain</td>
-              <td>The Adventures of Huckleberry Finn</td>
-              <td>90</td>
-            </tr>
-            <tr>
-              <td>Virginia Woolf</td>
-              <td>To the Lighthouse</td>
-              <td>90</td>
+            <tr v-for="(item, i) in authors.data" :key="i">
+              <td>{{ item.first_name }}</td>
+              <td>{{ item.last_name }}</td>
+              <td>{{ item.email }}</td>
             </tr>
           </tbody>
         </table>
       </div>
-      <!-- /.card-body -->
       <div class="card-footer">
-        <div class="row pagination-row">
-            <div class="col-8 d-flex align-items-center">
-                <small class="float-left">Showing 1 to 10 of 57 entries</small>
-            </div>
-            <div class="col-4">
-                <ul class="pagination pagination-sm m-0 float-right">
-                    <li class="page-item"><a class="page-link" href="#">&laquo;</a></li>
-                    <li class="page-item"><a class="page-link" href="#">1</a></li>
-                    <li class="page-item active"><a class="page-link" href="#">2</a></li>
-                    <li class="page-item"><a class="page-link" href="#">3</a></li>
-                    <li class="page-item"><a class="page-link" href="#">&raquo;</a></li>
-                </ul>
-            </div>
-        </div>
+        <Pagination :data="authors" />
       </div>
     </div>
   </NewLayout>

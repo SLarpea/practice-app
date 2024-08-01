@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AuthorController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -33,16 +34,13 @@ Route::middleware([
         return Inertia::render('Admin/Dashboard');
     })->name('dashboard');
     
-    // Route::get('/authors', function () { return Inertia::render('Admin/Examples/Authors'); })->name('examples.authors');
     Route::prefix('examples')->group(function () {
         Route::get('/authors', function () { return Inertia::render('Admin/Examples/Authors'); })->name('examples.authors');
     });
+
+    Route::resource('authors', AuthorController::class);
 });
 
 Route::get('admin-lte', function () {
     return Inertia::render('AdminLTE');
 })->name('admin.lte');
-
-// Route::prefix('examples')->group(function () {
-//     Route::get('/authors', function () { return Inertia::render('Admin/Authors'); })->name('examples.authors');
-// });
