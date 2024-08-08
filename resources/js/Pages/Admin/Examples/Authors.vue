@@ -1,29 +1,79 @@
 <script setup>
-import { ref, toRefs, watch, onMounted, onBeforeMount } from "vue";
+import { ref, toRefs, watch, reactive, onMounted, onBeforeMount } from "vue";
 import { router } from "@inertiajs/vue3";
+import { debounce } from "lodash";
+import { inject } from 'vue';
+import { toast } from 'vue3-toastify';
 import NewLayout from "@/Layouts/NewLayout.vue";
 import Pagination from "@/Components/Pagination.vue";
+
+const swal = inject('$swal');
 
 const props = defineProps({
   authors: Object,
 });
 
 const { authors } = toRefs(props);
-const loading = ref(false);
 
-onBeforeMount(() => {
-  loading.value = true;
-});
+let initialQueryState = {
+  per_page: 15,
+  // sort: "first_name",
+};
+const isLoading = ref(false);
+const search = ref("");
+const queryParams = reactive({ ...initialQueryState });
 
-onMounted(() => {
-  setTimeout(() => {
-    loading.value = false;
-  }, 1000);
-});
+// watchers
+watch(
+  queryParams,
+  (newVal, oldVal) => {
+    router.get("/authors", newVal, {
+      preserveState: true, // preserveState: (page) => page.props.someProp === 'value'
+      replace: true,
+      onStart: (visit) => {
+        isLoading.value = true;
+      },
+      onFinish: (visit) => {
+        setTimeout(() => {
+          isLoading.value = false;
+        }, 500);
+      },
+    });
+  },
+  { immediate: true, deep: true }
+);
+
+watch(
+  search,
+  debounce((val) => {
+    if (val !== "") {
+      initialQueryState = { ...initialQueryState, ["search"]: val };
+      Object.assign(queryParams, initialQueryState);
+    } else {
+      delete queryParams["search"];
+    }
+  }, 1000)
+);
+
+const submit = () => {
+  swal({
+    text: "You sure?",
+    icon: "question",
+    showCancelButton: true,
+    confirmButtonColor: "#03AED2",
+    cancelButtonText: 'Cancel',
+    confirmButtonText: 'Confirm',
+  }).then((result) => {
+    toast.error("Error Notification !");
+    // if (result.isConfirmed) {
+    //   router.post(route("logout"));
+    // }
+  });
+};
 
 </script>
 <template>
-  <NewLayout title="Authors" module="Examples" :loading="loading">
+  <NewLayout title="Authors" module="Examples" :loading="isLoading">
     <div class="card">
       <div class="card-table-header">
         <span class="card-table-title float-left">
@@ -34,6 +84,8 @@ onMounted(() => {
           <button
             type="button"
             class="btn btn-xs"
+            data-toggle="modal"
+            data-target="#exampleModalCenter"
             style="background-color: #03aed2; color: #f5f5f5"
           >
             Small button
@@ -51,7 +103,11 @@ onMounted(() => {
         <div class="row">
           <div class="col-sm-6 col-md-7 col-lg-5 col-xl-4">
             <div class="input-group input-group-sm mb-3">
-              <input type="text" class="form-control max-w-lg" />
+              <input
+                type="text"
+                class="form-control max-w-lg"
+                v-model="search"
+              />
               <div class="input-group-append">
                 <span class="input-group-text"
                   ><i class="fa-solid fa-magnifying-glass"></i
@@ -61,18 +117,18 @@ onMounted(() => {
           </div>
           <div class="col-sm-6 col-md-5 col-lg-7 col-xl-8">
             <div class="float-right">
-              <div class="show-sort-container">
+              <!-- <div class="show-sort-container">
                 sort
-                <select class="show-items">
-                  <option value="Name">FullName</option>
-                  <option value="Email Address">Famous Book</option>
-                  <option value="1">Published Books</option>
+                <select class="show-items" v-model="queryParams.sort">
+                  <option value="first_name" selected>First Name</option>
+                  <option value="last_name">Last Name</option>
+                  <option value="email">Email</option>
                 </select>
-              </div>
+              </div> -->
               <div class="show-items-container">
                 per page
-                <select class="show-items">
-                  <option value="15">15</option>
+                <select class="show-items" v-model="queryParams.per_page">
+                  <option value="15" selected>15</option>
                   <option value="20">20</option>
                   <option value="20">25</option>
                   <option value="30">30</option>
@@ -95,7 +151,6 @@ onMounted(() => {
             </div>
           </div>
         </div>
-
         <table
           class="table table-sm table-hover table-striped table-responsive"
         >
@@ -117,6 +172,42 @@ onMounted(() => {
       </div>
       <div class="card-footer">
         <Pagination :data="authors" />
+      </div>
+    </div>
+    <!-- Modal -->
+    <div
+      class="modal fade"
+      id="exampleModalCenter"
+      tabindex="-1"
+      role="dialog"
+      aria-labelledby="exampleModalCenterTitle"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLongTitle">Modal title</h5>
+            <button
+              type="button"
+              class="close"
+              data-dismiss="modal"
+              aria-label="Close"
+            >
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">...</div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-secondary"
+              data-dismiss="modal"
+            >
+              Close
+            </button>
+            <button type="button" class="btn btn-primary" @click="submit" style="background-color: #03aed2; color: #f5f5f5; border: 1px solid #03aed2;">Save changes</button>
+          </div>
+        </div>
       </div>
     </div>
   </NewLayout>

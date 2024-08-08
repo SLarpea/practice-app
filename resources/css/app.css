@@ -22,7 +22,7 @@
 
 /* PreLoader */
 .preloader {
-    background-color: rgba(255, 255, 255, 0.5) !important;
+    background-color: rgba(0, 0, 0, 0.1) !important;
 }
 
 .load {
@@ -167,6 +167,11 @@
 .show-sort-container {
     font-size: 13px;
     margin-right: .5rem;
+    display: inline;
+}
+
+.show-sort-container .show-items {
+    width: 100px;
 }
 
 .show-items-container {
@@ -229,6 +234,15 @@ table tbody td {
     background-color: #ffffff !important;
     border-top: 1px solid #03AED2;
     border-style: dashed;
+}
+
+/* Modal */
+.modal.fade.show {
+    background-color: rgba(0, 0, 0, 0.1) !important;
+}
+
+.modal-content {
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
 }
 
 @keyframes spin {

@@ -13,7 +13,14 @@ class AuthorController extends Controller
      */
     public function index()
     {
-        $authors = Author::paginate(5);
+        $filter = request()->all();
+        $authors = Author::when(isset($filter['search']), function ($query) use ($filter) {
+            $query->where('first_name', 'like', '%' . $filter['search'] . '%')
+            ->OrWhere('last_name', 'like', '%' . $filter['search'] . '%')
+            ->OrWhere('email', 'like', '%' . $filter['search'] . '%');
+        })
+        ->latest()
+        ->paginate(empty($filter['per_page']) ? 10 : $filter['per_page']);
 
         return Inertia::render('Admin/Examples/Authors', [
             'authors' => $authors

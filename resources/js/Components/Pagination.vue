@@ -34,7 +34,7 @@ const findPageLink = (links, item) => {
   <div class="row pagination-row">
     <div class="col-8 d-flex align-items-center">
       <small class="float-left"
-        >Showing {{ data.from }} to {{ data.to }} of
+        >Showing {{ data.from }} to {{ data.per_page }} of
         {{ data.total }} entries</small
       >
     </div>
