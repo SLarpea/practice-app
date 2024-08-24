@@ -70,9 +70,27 @@
     border-bottom: 1px solid #03AED2 !important;
 }
 
+.dropdown-item:active {
+    border: 1px solid #03AED2;
+    background-color: #03AED2 !important;
+}
+
+.dropdown-item.active {
+    border: 1px solid #03AED2;
+    background-color: #03AED2 !important;
+}
+
 .dropdown-menu {
     border: 1px solid #03AED2;
     box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+}
+
+.dropdown-menu.locale, .dropdown-menu.user-options {
+    padding: 0;
+}
+
+.dropdown-menu.locale a {
+    padding: .5rem 1rem;
 }
 
 /* SideBar */
@@ -151,8 +169,6 @@
 
 .card-table-header .card-table-buttons {
     padding: .7rem 1.3rem .3rem 1rem;
-    display: flex;
-    gap: .5rem;
 }
 
 .card .card-footer {
@@ -244,6 +260,8 @@ table tbody td {
 .modal-content {
     box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
 }
+
+/* Toast */
 
 @keyframes spin {
 

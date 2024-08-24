@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthorController;
+use App\Http\Controllers\Localization;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -33,10 +34,8 @@ Route::middleware([
     Route::get('/dashboard', function () {
         return Inertia::render('Admin/Dashboard');
     })->name('dashboard');
-    
-    Route::prefix('examples')->group(function () {
-        Route::get('/authors', function () { return Inertia::render('Admin/Examples/Authors'); })->name('examples.authors');
-    });
+
+    Route::post('setLocale', [Localization::class, 'setLocale'])->name('change.locale');
 
     Route::resource('authors', AuthorController::class);
 });

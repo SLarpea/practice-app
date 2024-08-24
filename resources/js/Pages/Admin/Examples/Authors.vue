@@ -2,12 +2,12 @@
 import { ref, toRefs, watch, reactive, onMounted, onBeforeMount } from "vue";
 import { router } from "@inertiajs/vue3";
 import { debounce } from "lodash";
-import { inject } from 'vue';
-import { toast } from 'vue3-toastify';
+import { inject } from "vue";
+import { toast } from "vue3-toastify";
 import NewLayout from "@/Layouts/NewLayout.vue";
 import Pagination from "@/Components/Pagination.vue";
 
-const swal = inject('$swal');
+const swal = inject("$swal");
 
 const props = defineProps({
   authors: Object,
@@ -61,8 +61,8 @@ const submit = () => {
     icon: "question",
     showCancelButton: true,
     confirmButtonColor: "#03AED2",
-    cancelButtonText: 'Cancel',
-    confirmButtonText: 'Confirm',
+    cancelButtonText: "Cancel",
+    confirmButtonText: "Confirm",
   }).then((result) => {
     toast.error("Error Notification !");
     // if (result.isConfirmed) {
@@ -70,7 +70,6 @@ const submit = () => {
     // }
   });
 };
-
 </script>
 <template>
   <NewLayout title="Authors" module="Examples" :loading="isLoading">
@@ -78,9 +77,9 @@ const submit = () => {
       <div class="card-table-header">
         <span class="card-table-title float-left">
           <i class="fa-solid fa-list-ol"></i>
-          List of Authors
+          {{ $t('lists_of_authors') }}
         </span>
-        <div class="card-table-buttons float-right">
+        <div class="card-table-buttons d-none d-sm-block float-right">
           <button
             type="button"
             class="btn btn-xs"
@@ -92,12 +91,70 @@ const submit = () => {
           </button>
           <button
             type="button"
-            class="btn btn-xs"
+            class="btn btn-xs ml-1"
             style="background-color: #006989; color: #f5f5f5"
           >
             Small button
           </button>
         </div>
+        <div class="dropdown float-right d-block d-sm-none">
+          <button
+            class="btn btn-md dropdown-toggle"
+            type="button"
+            id="dropdownMenu1"
+            data-toggle="dropdown"
+            aria-haspopup="true"
+            aria-expanded="true"
+            style="padding: .7rem 1.3rem .3rem 1rem;"
+          >
+            <!-- <span class="hamburger"></span> -->
+            <i class="fa-solid fa-bars-staggered"></i>
+          </button>
+          <ul
+            class="dropdown-menu dropdown-menu-md dropdown-menu-right"
+            aria-labelledby="dropdownMenu1"
+          >
+            <a href="#" class="dropdown-item" data-toggle="modal" data-target="#exampleModalCenter">
+              <i class="fas fa-envelope mr-2"></i> Show Modal
+            </a>
+            <div class="dropdown-divider"></div>
+            <a href="#" class="dropdown-item">
+              <i class="fas fa-users mr-2"></i> 8 friend requests
+            </a>
+          </ul>
+        </div>
+        <!-- <ul class="navbar-nav">
+          <li class="nav-item dropdown">
+            <a class="nav-link float-right" data-toggle="dropdown" href="#">
+              <i class="far fa-bell"></i>
+              <span class="badge badge-warning navbar-badge">15</span>
+            </a>
+            <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
+              <span class="dropdown-item dropdown-header"
+                >15 Notifications</span
+              >
+              <div class="dropdown-divider"></div>
+              <a href="#" class="dropdown-item">
+                <i class="fas fa-envelope mr-2"></i> 4 new messages
+                <span class="float-right text-muted text-sm">3 mins</span>
+              </a>
+              <div class="dropdown-divider"></div>
+              <a href="#" class="dropdown-item">
+                <i class="fas fa-users mr-2"></i> 8 friend requests
+                <span class="float-right text-muted text-sm">12 hours</span>
+              </a>
+              <div class="dropdown-divider"></div>
+              <a href="#" class="dropdown-item">
+                <i class="fas fa-file mr-2"></i> 3 new reports
+                <span class="float-right text-muted text-sm">2 days</span>
+              </a>
+              <div class="dropdown-divider"></div>
+              <a href="#" class="dropdown-item dropdown-footer"
+                >See All Notifications</a
+              >
+            </div>
+          </li>
+        </ul> -->
       </div>
       <div class="card-body">
         <div class="row">
@@ -154,6 +211,11 @@ const submit = () => {
         <table
           class="table table-sm table-hover table-striped table-responsive"
         >
+          <colgroup>
+            <col style="width: 15%" />
+            <col style="width: 15%" />
+            <col style="width: 70%" />
+          </colgroup>
           <thead>
             <tr>
               <th>First Name</th>
@@ -205,7 +267,18 @@ const submit = () => {
             >
               Close
             </button>
-            <button type="button" class="btn btn-primary" @click="submit" style="background-color: #03aed2; color: #f5f5f5; border: 1px solid #03aed2;">Save changes</button>
+            <button
+              type="button"
+              class="btn btn-primary"
+              @click="submit"
+              style="
+                background-color: #03aed2;
+                color: #f5f5f5;
+                border: 1px solid #03aed2;
+              "
+            >
+              Save changes
+            </button>
           </div>
         </div>
       </div>

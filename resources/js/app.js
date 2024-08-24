@@ -10,9 +10,14 @@ import Vue3Toastify from 'vue3-toastify';
 import 'vue3-toastify/dist/index.css';
 import 'sweetalert2/dist/sweetalert2.min.css';
 
+import { i18n } from './Plugins/i18n';
+
 const toastifyOptions = {
     autoClose: 3000,
+    // icon: false,
     hideProgressBar: true,
+    pauseOnHover: true,
+    newestOnTop: true,
     style: {
         opacity: '1',
         userSelect: 'initial',
@@ -30,6 +35,7 @@ createInertiaApp({
             .use(ZiggyVue)
             .use(Vue3Toastify, toastifyOptions)
             .use(VueSweetalert2)
+            .use(i18n)
             .mount(el);
     },
     progress: {

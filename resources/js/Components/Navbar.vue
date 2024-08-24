@@ -1,8 +1,12 @@
 <script setup>
-import { router } from '@inertiajs/vue3'
-import { inject } from 'vue'
+import { router, usePage } from "@inertiajs/vue3";
+import { inject, ref } from "vue";
+import PageLoader from "./PageLoader.vue";
 
-const swal = inject('$swal');
+const swal = inject("$swal");
+const page = usePage();
+
+const isLoading = ref(false);
 
 const logout = () => {
   swal({
@@ -10,16 +14,35 @@ const logout = () => {
     icon: "question",
     showCancelButton: true,
     confirmButtonColor: "#03AED2",
-    cancelButtonText: 'Cancel',
-    confirmButtonText: 'Confirm',
+    cancelButtonText: "Cancel",
+    confirmButtonText: "Confirm",
   }).then((result) => {
     if (result.isConfirmed) {
       router.post(route("logout"));
     }
   });
 };
+
+const setLocale = (locale) => {
+  if (page.props.locale == locale) return false;
+  router.post(route('change.locale'), { locale: locale }, {
+    onStart: visit => {
+      isLoading.value = true;
+    },
+    onSuccess: page => {
+      isLoading.value = false;
+    },
+    onFinish: visit => {
+      location.reload();
+    },
+    onError: errors => {
+      console.log(error);
+    },
+  });
+};
 </script>
 <template>
+  <PageLoader :loading="isLoading" />
   <nav class="main-header navbar navbar-expand navbar-white navbar-light">
     <!-- Left navbar links -->
     <ul class="navbar-nav">
@@ -122,44 +145,43 @@ const logout = () => {
       </li>
       <!-- Notifications Dropdown Menu -->
       <li class="nav-item dropdown">
-        <a class="nav-link" data-toggle="dropdown" href="#">
-          <i class="far fa-bell"></i>
-          <span class="badge badge-warning navbar-badge">15</span>
-        </a>
-        <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
-          <span class="dropdown-item dropdown-header">15 Notifications</span>
-          <div class="dropdown-divider"></div>
-          <a href="#" class="dropdown-item">
-            <i class="fas fa-envelope mr-2"></i> 4 new messages
-            <span class="float-right text-muted text-sm">3 mins</span>
-          </a>
-          <div class="dropdown-divider"></div>
-          <a href="#" class="dropdown-item">
-            <i class="fas fa-users mr-2"></i> 8 friend requests
-            <span class="float-right text-muted text-sm">12 hours</span>
-          </a>
-          <div class="dropdown-divider"></div>
-          <a href="#" class="dropdown-item">
-            <i class="fas fa-file mr-2"></i> 3 new reports
-            <span class="float-right text-muted text-sm">2 days</span>
-          </a>
-          <div class="dropdown-divider"></div>
-          <a href="#" class="dropdown-item dropdown-footer"
-            >See All Notifications</a
-          >
-        </div>
-      </li>
-      <li class="nav-item dropdown">
-        <a class="nav-link" data-toggle="dropdown" href="#">
-          <p class="float-left text-muted text-sm capitalize mr-1">a. sulana</p>
+        <a
+          class="nav-link d-flex gap-1 align-items-center"
+          data-toggle="dropdown"
+          href="#"
+        >
+          {{ ($page.props.locale == 'en') ? 'English' : '中国人' }}
           <i class="fa-solid fa-caret-down"></i>
         </a>
-        <ul class="dropdown-menu dropdown-menu-sm dropdown-menu-right">
+        <div class="dropdown-menu dropdown-menu-right locale">
+          <a href="#" class="dropdown-item" @click="setLocale('en')" :class="{ active: $page.props.locale == 'en' }">
+            English
+          </a>
+          <a href="#" class="dropdown-item" @click="setLocale('zh_CN')" :class="{ active: $page.props.locale == 'zh_CN' }">
+            中国人
+          </a>
+        </div>
+      </li>
+      <li
+        class="nav-item dropdown"
+        style="border-left: 1px solid #e5e7eb !important"
+      >
+        <a
+          class="nav-link d-flex gap-1 align-items-center"
+          data-toggle="dropdown"
+          href="#"
+        >
+          <span class="float-left text-muted text-sm capitalize"
+            >a. sulana</span
+          >
+          <i class="fa-solid fa-caret-down"></i>
+        </a>
+        <ul class="dropdown-menu dropdown-menu-right user-options">
           <li>
             <form @submit.prevent="logout">
               <button
                 type="submit"
-                class="dropdown-item d-flex gap-1 align-items-center text-sm"
+                class="dropdown-item d-flex gap-2 align-items-center py-2 px-4"
               >
                 <i class="fa-solid fa-right-from-bracket"></i>
                 <span>Logout</span>
@@ -167,11 +189,6 @@ const logout = () => {
             </form>
           </li>
         </ul>
-        <!-- <div class="dropdown-menu dropdown-menu-sm dropdown-menu-right">
-              <a href="#" class="dropdown-item">
-                <i class="fa-solid fa-right-from-bracket"></i> Logout
-              </a>
-            </div> -->
       </li>
     </ul>
   </nav>
