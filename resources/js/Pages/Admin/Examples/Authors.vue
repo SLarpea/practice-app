@@ -213,20 +213,17 @@ const submit = () => {
         >
           <colgroup>
             <col style="width: 15%" />
-            <col style="width: 15%" />
-            <col style="width: 70%" />
+            <col style="width: 85%" />
           </colgroup>
           <thead>
             <tr>
-              <th>First Name</th>
-              <th>Last Name</th>
+              <th>Name</th>
               <th>Email</th>
             </tr>
           </thead>
           <tbody>
             <tr v-for="(item, i) in authors.data" :key="i">
-              <td>{{ item.first_name }}</td>
-              <td>{{ item.last_name }}</td>
+              <td>{{ item.name }}</td>
               <td>{{ item.email }}</td>
             </tr>
           </tbody>

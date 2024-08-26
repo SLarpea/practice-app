@@ -37,7 +37,7 @@ Route::middleware([
 
     Route::post('setLocale', [Localization::class, 'setLocale'])->name('change.locale');
 
-    Route::resource('authors', AuthorController::class);
+    Route::resource('authors', AuthorController::class)->middleware(['authors.index' => 'permission:view authors']);
 });
 
 Route::get('admin-lte', function () {

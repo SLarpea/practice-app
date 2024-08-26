@@ -2,7 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Author;
+use App\Models\User;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
@@ -14,16 +15,15 @@ class AuthorController extends Controller
     public function index()
     {
         $filter = request()->all();
-        $authors = Author::when(isset($filter['search']), function ($query) use ($filter) {
-            $query->where('first_name', 'like', '%' . $filter['search'] . '%')
-            ->OrWhere('last_name', 'like', '%' . $filter['search'] . '%')
-            ->OrWhere('email', 'like', '%' . $filter['search'] . '%');
-        })
-        ->latest()
-        ->paginate(empty($filter['per_page']) ? 10 : $filter['per_page']);
-
         return Inertia::render('Admin/Examples/Authors', [
-            'authors' => $authors
+            'authors' => User::when(isset($filter['search']), function ($query) use ($filter) {
+                $query->where('first_name', 'like', '%' . $filter['search'] . '%')
+                    ->OrWhere('last_name', 'like', '%' . $filter['search'] . '%')
+                    ->OrWhere('email', 'like', '%' . $filter['search'] . '%');
+            })
+                ->role('Author')
+                ->latest()
+                ->paginate(empty($filter['per_page']) ? 10 : $filter['per_page'])
         ]);
     }
 
@@ -32,7 +32,7 @@ class AuthorController extends Controller
      */
     public function create()
     {
-        //
+        // 
     }
 
     /**
@@ -40,7 +40,7 @@ class AuthorController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $this->authorize('create', User::class);
     }
 
     /**

@@ -5,6 +5,7 @@ import { router } from "@inertiajs/vue3";
 defineProps({
   title: String,
 });
+
 </script>
 <template>
   <aside class="main-sidebar sidebar-dark-primary elevation-4">
@@ -65,7 +66,7 @@ defineProps({
               </p>
             </a>
           </li>
-          <li class="nav-item">
+          <li class="nav-item" v-if="$page.props.user.role.includes('Super Admin') || $page.props.user.permissions.includes('view authors')">
             <a
               :href="route('authors.index')"
               class="nav-link"
