@@ -1,11 +1,9 @@
 <template>
-    <div class="min-h-screen flex flex-col sm:justify-center items-center pt-6 sm:pt-0 bg-gray-100">
-        <div>
-            <slot name="logo" />
+    <section id="accueil">
+        <div class="triangle_rose"></div>
+        <div class="triangle_vert"></div>
+        <div class="form">
+          <slot />
         </div>
-
-        <div class="w-full sm:max-w-md mt-6 px-6 py-4 bg-white shadow-md overflow-hidden sm:rounded-lg">
-            <slot />
-        </div>
-    </div>
+    </section>
 </template>
