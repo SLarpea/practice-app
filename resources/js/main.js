@@ -1,3 +1,5 @@
+// This code will act as guard for the browsers back and
+// forward buttons when logging out and in
 window.addEventListener('popstate', async (e) => {
     e.stopImmediatePropagation();
     try{
