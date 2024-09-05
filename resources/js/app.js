@@ -2,7 +2,7 @@ import './bootstrap';
 import '../css/app.css';
 import './main';
 
-import { createApp, h } from 'vue';
+import { createApp, h, reactive } from 'vue';
 import { createInertiaApp } from '@inertiajs/vue3';
 import { resolvePageComponent } from 'laravel-vite-plugin/inertia-helpers';
 import { ZiggyVue } from '../../vendor/tightenco/ziggy';
@@ -15,6 +15,10 @@ import 'sweetalert2/dist/sweetalert2.min.css';
 
 const appName = import.meta.env.VITE_APP_NAME || 'Practice App';
 
+const global = reactive({
+    isLoading: false
+});
+
 createInertiaApp({
     title: (title) => `${title} - ${appName}`,
     resolve: (name) => resolvePageComponent(`./Pages/${name}.vue`, import.meta.glob('./Pages/**/*.vue')),
@@ -25,6 +29,7 @@ createInertiaApp({
             .use(Vue3Toastify, TOASTIFYOPTIONS)
             .use(VueSweetalert2)
             .use(i18n)
+            .provide('globalVar', global) // Global var for all vue components
             .mount(el);
     },
     progress: {

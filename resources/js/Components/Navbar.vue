@@ -1,12 +1,16 @@
 <script setup>
 import { router, usePage } from "@inertiajs/vue3";
-import { inject, ref } from "vue";
+import { computed, inject, ref } from "vue";
 import PageLoader from "./PageLoader.vue";
 
 const swal = inject("$swal");
 const page = usePage();
 
 const isLoading = ref(false);
+
+const locale = computed(() => page.props.locale);
+const username = computed(() => page.props.auth.user.name);
+const userRoles = computed(() => page.props.auth.user.roles.join(", "));
 
 const logout = () => {
   swal({
@@ -25,20 +29,24 @@ const logout = () => {
 
 const setLocale = (locale) => {
   if (page.props.locale == locale) return false;
-  router.post(route('change.locale'), { locale: locale }, {
-    onStart: visit => {
-      isLoading.value = true;
-    },
-    onSuccess: page => {
-      isLoading.value = false;
-    },
-    onFinish: visit => {
-      location.reload();
-    },
-    onError: errors => {
-      console.log(error);
-    },
-  });
+  router.post(
+    route("change.locale"),
+    { locale: locale },
+    {
+      onStart: (visit) => {
+        isLoading.value = true;
+      },
+      onSuccess: (page) => {
+        isLoading.value = false;
+      },
+      onFinish: (visit) => {
+        location.reload();
+      },
+      onError: (errors) => {
+        console.log(error);
+      },
+    }
+  );
 };
 </script>
 <template>
@@ -146,21 +154,41 @@ const setLocale = (locale) => {
       <!-- Notifications Dropdown Menu -->
       <li class="nav-item dropdown">
         <a
-          class="nav-link d-flex gap-1 align-items-center"
+          class="nav-link d-flex gap-1 align-items-center text-sm"
           data-toggle="dropdown"
           href="#"
         >
-          {{ ($page.props.locale == 'en') ? 'English' : '中国人' }}
+          {{ locale == "en" ? "English" : "中国人" }}
           <i class="fa-solid fa-caret-down"></i>
         </a>
-        <div class="dropdown-menu dropdown-menu-right locale">
-          <a href="#" class="dropdown-item" @click="setLocale('en')" :class="{ active: $page.props.locale == 'en' }">
+        <ul class="dropdown-menu dropdown-menu-right text-sm locale">
+          <li>
+            <button
+              type="button"
+              class="dropdown-item hover:rounded-sm focus:bg-gray-50 focus:text-black py-1.5"
+              :class="{ active: locale == 'en' }"
+              @click="setLocale('en')"
+            >
+              English
+            </button>
+          </li>
+          <li>
+            <button
+              type="button"
+              class="dropdown-item hover:rounded-sm focus:bg-gray-50 focus:text-black py-1.5"
+              :class="{ active: locale == 'zh_CN' }"
+              @click="setLocale('zh_CN')"
+            >
+              中国人
+            </button>
+          </li>
+          <!-- <a href="#" class="dropdown-item" @click="setLocale('en')" :class="{ active: locale == 'en' }">
             English
           </a>
-          <a href="#" class="dropdown-item" @click="setLocale('zh_CN')" :class="{ active: $page.props.locale == 'zh_CN' }">
+          <a href="#" class="dropdown-item" @click="setLocale('zh_CN')" :class="{ active: locale == 'zh_CN' }">
             中国人
-          </a>
-        </div>
+          </a> -->
+        </ul>
       </li>
       <li
         class="nav-item dropdown"
@@ -172,19 +200,15 @@ const setLocale = (locale) => {
           href="#"
         >
           <span class="float-left text-muted text-sm capitalize"
-            >a. sulana</span
+            >{{ username }}【 {{ userRoles }} 】</span
           >
           <i class="fa-solid fa-caret-down"></i>
         </a>
-        <ul class="dropdown-menu dropdown-menu-right user-options">
+        <ul class="dropdown-menu dropdown-menu-right text-sm">
           <li>
             <form @submit.prevent="logout">
-              <button
-                type="submit"
-                class="dropdown-item d-flex gap-2 align-items-center py-2 px-4"
-              >
-                <i class="fa-solid fa-right-from-bracket"></i>
-                <span>Logout</span>
+              <button type="submit" class="dropdown-item hover:rounded-sm hover:bg-gray-50 focus:bg-gray-50 focus:text-black py-1.5">
+                <i class="fa-solid fa-right-from-bracket mr-2"></i>Logout
               </button>
             </form>
           </li>

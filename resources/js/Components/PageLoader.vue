@@ -14,5 +14,6 @@ defineProps({
       <hr />
       <hr />
     </div>
+    <span class="mt-32 text-lg font-weight-normal text-white">Loading</span>
   </div>
 </template>

@@ -1,11 +1,10 @@
 <script setup>
-import { Head, Link, useForm } from "@inertiajs/vue3";
-import { ref } from 'vue';
+import { Head, useForm } from "@inertiajs/vue3";
+import { inject } from 'vue';
 import { toast } from "vue3-toastify";
 import AuthenticationCard from "@/Components/AuthenticationCard.vue";
 import Checkbox from "@/Components/Checkbox.vue";
 import InputError from "@/Components/InputError.vue";
-import PageLoader from "@/Components/PageLoader.vue";
 
 defineProps({
   canResetPassword: Boolean,
@@ -18,7 +17,7 @@ const form = useForm({
   remember: false,
 });
 
-const isLoading = ref(false);
+const global = inject('globalVar');
 
 const submit = () => {
   form
@@ -27,23 +26,22 @@ const submit = () => {
       remember: form.remember ? "on" : "",
     }))
     .post(route("login"), {
-      onStart: () => isLoading.value = true,
+      onStart: () => global.isLoading = true,
       onSuccess: (page) => {
         let name = page.props.auth.user.name;
         toast(`Welcome Back, <strong>${name}</strong>`, {
           type: "success",
           dangerouslyHTMLString: true,
         })
-        isLoading.value = false
+        global.isLoading = false
       },
-      onError: () => isLoading.value = false,
+      onError: () => global.isLoading = false,
       onFinish: () => form.reset("password"),
     });
 };
 </script>
 
 <template>
-  <PageLoader :loading="isLoading" />
   <Head title="Log in" />
 
   <AuthenticationCard>
@@ -77,7 +75,7 @@ const submit = () => {
       <div class="forms">
         <div class="form-content">
           <div class="login-form">
-            <div class="title">Login</div>
+            <div class="title">Practice App | Login</div>
             <form @submit.prevent="submit">
               <div class="input-boxes">
                 <div class="input-box">
@@ -126,7 +124,7 @@ const submit = () => {
             </form>
           </div>
           <div class="signup-form">
-            <div class="title">Signup</div>
+            <div class="title">Practice App | Signup</div>
             <form action="#">
               <div class="input-boxes">
                 <div class="input-box">

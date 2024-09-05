@@ -1,14 +1,19 @@
 <script setup>
-import { ref } from "vue";
-import { router } from "@inertiajs/vue3";
+import { computed, ref } from "vue";
+import { router, usePage } from "@inertiajs/vue3";
 
 defineProps({
   title: String,
 });
 
+const page = usePage();
+
+const userRoles = computed(() => page.props.auth.user.roles);
+const userPermissions = computed(() => page.props.auth.user.permissions);
+
 </script>
 <template>
-  <aside class="main-sidebar sidebar-dark-primary elevation-4">
+  <aside class="main-sidebar sidebar-dark-primary elevation-2">
     <a href="index3.html" class="brand-link">
       <img
         src="/dist/img/AdminLTELogo.png"
@@ -30,7 +35,7 @@ defineProps({
           <li class="nav-item">
             <a
               :href="route('dashboard')"
-              class="nav-link"
+              class="nav-link text-sm"
               :class="{ active: title == 'Dashboard' }"
             >
               <i class="nav-icon fas fa-tachometer-alt"></i>
@@ -40,7 +45,7 @@ defineProps({
           <li class="nav-item">
             <a
               href="#"
-              class="nav-link"
+              class="nav-link text-sm"
               :class="{ active: title == 'Widgets' }"
             >
               <i class="nav-icon fas fa-th"></i>
@@ -54,7 +59,7 @@ defineProps({
           <li class="nav-item">
             <a
               href="#"
-              class="nav-link"
+              class="nav-link text-sm"
               :class="{ active: title == 'Calendar' }"
             >
               <i class="nav-icon far fa-calendar-alt"></i>
@@ -66,10 +71,10 @@ defineProps({
               </p>
             </a>
           </li>
-          <li class="nav-item" v-if="$page.props.user.role.includes('Super Admin') || $page.props.user.permissions.includes('view authors')">
+          <li class="nav-item" v-if="userRoles.includes('Super Admin') || userPermissions.includes('view authors')">
             <a
               :href="route('authors.index')"
-              class="nav-link"
+              class="nav-link text-sm"
               :class="{ active: title == 'Authors' }"
             >
               <i class="nav-icon fa-solid fa-user-pen"></i>
@@ -79,7 +84,7 @@ defineProps({
           <li class="nav-item">
             <a
               href="#"
-              class="nav-link"
+              class="nav-link text-sm"
               :class="{ active: title == 'Kanban Board' }"
             >
               <i class="nav-icon fas fa-columns"></i>
@@ -89,7 +94,7 @@ defineProps({
           <li class="nav-item">
             <a
               href="#"
-              class="nav-link"
+              class="nav-link text-sm"
               :class="{ active: title == 'Mailbox' }"
             >
               <i class="nav-icon far fa-envelope"></i>
@@ -102,7 +107,7 @@ defineProps({
               <li class="nav-item">
                 <a
                   href="#"
-                  class="nav-link"
+                  class="nav-link text-sm"
                   :class="{ active: title == 'Inbox' }"
                 >
                   <i class="far fa-circle nav-icon"></i>
@@ -112,7 +117,7 @@ defineProps({
               <li class="nav-item">
                 <a
                   href="#"
-                  class="nav-link"
+                  class="nav-link text-sm"
                   :class="{ active: title == 'Compose' }"
                 >
                   <i class="far fa-circle nav-icon"></i>
@@ -122,7 +127,7 @@ defineProps({
               <li class="nav-item">
                 <a
                   href="#"
-                  class="nav-link"
+                  class="nav-link text-sm"
                   :class="{ active: title == 'Read' }"
                 >
                   <i class="far fa-circle nav-icon"></i>
@@ -132,7 +137,7 @@ defineProps({
             </ul>
           </li>
           <li class="nav-item">
-            <a href="#" class="nav-link" :class="{ active: title == 'Pages' }">
+            <a href="#" class="nav-link text-sm" :class="{ active: title == 'Pages' }">
               <i class="nav-icon fas fa-book"></i>
               <p>
                 Pages
@@ -143,7 +148,7 @@ defineProps({
               <li class="nav-item">
                 <a
                   href="#"
-                  class="nav-link"
+                  class="nav-link text-sm"
                   :class="{ active: title == 'Invoice' }"
                 >
                   <i class="far fa-circle nav-icon"></i>
@@ -153,7 +158,7 @@ defineProps({
               <li class="nav-item">
                 <a
                   href="#"
-                  class="nav-link"
+                  class="nav-link text-sm"
                   :class="{ active: title == 'Profile' }"
                 >
                   <i class="far fa-circle nav-icon"></i>

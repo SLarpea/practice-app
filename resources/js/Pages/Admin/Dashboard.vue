@@ -1,23 +1,23 @@
 <script setup>
-import { ref, toRefs, watch, onMounted, onBeforeMount } from "vue";
+import { ref, onMounted, onBeforeMount, inject } from "vue";
 import NewLayout from '@/Layouts/NewLayout.vue';
 
-const loading = ref(false);
+const global = inject('globalVar');
 
 onBeforeMount(() => {
-  loading.value = true;
+  global.isLoading = true;
 });
 
 onMounted(() => {
   setTimeout(() => {
-    loading.value = false;
+    global.isLoading = false;
   }, 1000);
 });
 
 </script>
 
 <template>
-    <NewLayout title="Dashboard" module="Home" :loading="loading">
+    <NewLayout title="Dashboard" module="Home">
         <!-- Info boxes -->
         <div class="row">
           <div class="col-12 col-sm-6 col-md-3">

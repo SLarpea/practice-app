@@ -17,8 +17,7 @@ class AuthorController extends Controller
         $filter = request()->all();
         return Inertia::render('Admin/Examples/Authors', [
             'authors' => User::when(isset($filter['search']), function ($query) use ($filter) {
-                $query->where('first_name', 'like', '%' . $filter['search'] . '%')
-                    ->OrWhere('last_name', 'like', '%' . $filter['search'] . '%')
+                $query->where('name', 'like', '%' . $filter['search'] . '%')
                     ->OrWhere('email', 'like', '%' . $filter['search'] . '%');
             })
                 ->role('Author')
