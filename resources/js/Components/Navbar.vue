@@ -4,6 +4,7 @@ import { computed, inject, ref } from "vue";
 import PageLoader from "./PageLoader.vue";
 
 const swal = inject("$swal");
+const global = inject("globalVar");
 const page = usePage();
 
 const isLoading = ref(false);
@@ -22,7 +23,14 @@ const logout = () => {
     confirmButtonText: "Confirm",
   }).then((result) => {
     if (result.isConfirmed) {
-      router.post(route("logout"));
+      router.post(
+        route("logout"),
+        {},
+        {
+          onStart: () => (global.isLoading = true),
+          onFinish: () => (global.isLoading = false),
+        }
+      );
     }
   });
 };
@@ -34,10 +42,10 @@ const setLocale = (locale) => {
     { locale: locale },
     {
       onStart: (visit) => {
-        isLoading.value = true;
+        global.isLoading = true;
       },
       onSuccess: (page) => {
-        isLoading.value = false;
+        global.isLoading = false;
       },
       onFinish: (visit) => {
         location.reload();
@@ -50,9 +58,7 @@ const setLocale = (locale) => {
 };
 </script>
 <template>
-  <PageLoader :loading="isLoading" />
   <nav class="main-header navbar navbar-expand navbar-white navbar-light">
-    <!-- Left navbar links -->
     <ul class="navbar-nav">
       <li class="nav-item">
         <a class="nav-link" data-widget="pushmenu" href="#" role="button"
@@ -67,9 +73,7 @@ const setLocale = (locale) => {
           </li> -->
     </ul>
 
-    <!-- Right navbar links -->
     <ul class="navbar-nav ml-auto">
-      <!-- Messages Dropdown Menu -->
       <li class="nav-item dropdown">
         <a class="nav-link" data-toggle="dropdown" href="#">
           <i class="far fa-comments"></i>
@@ -77,7 +81,6 @@ const setLocale = (locale) => {
         </a>
         <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
           <a href="#" class="dropdown-item">
-            <!-- Message Start -->
             <div class="media">
               <img
                 src="/dist/img/user1-128x128.jpg"
@@ -97,11 +100,9 @@ const setLocale = (locale) => {
                 </p>
               </div>
             </div>
-            <!-- Message End -->
           </a>
           <div class="dropdown-divider"></div>
           <a href="#" class="dropdown-item">
-            <!-- Message Start -->
             <div class="media">
               <img
                 src="/dist/img/user8-128x128.jpg"
@@ -121,11 +122,9 @@ const setLocale = (locale) => {
                 </p>
               </div>
             </div>
-            <!-- Message End -->
           </a>
           <div class="dropdown-divider"></div>
           <a href="#" class="dropdown-item">
-            <!-- Message Start -->
             <div class="media">
               <img
                 src="/dist/img/user3-128x128.jpg"
@@ -145,21 +144,18 @@ const setLocale = (locale) => {
                 </p>
               </div>
             </div>
-            <!-- Message End -->
           </a>
           <div class="dropdown-divider"></div>
           <a href="#" class="dropdown-item dropdown-footer">See All Messages</a>
         </div>
       </li>
-      <!-- Notifications Dropdown Menu -->
       <li class="nav-item dropdown">
         <a
-          class="nav-link d-flex gap-1 align-items-center text-sm"
+          class="nav-link text-sm"
           data-toggle="dropdown"
           href="#"
         >
-          {{ locale == "en" ? "English" : "中国人" }}
-          <i class="fa-solid fa-caret-down"></i>
+          <i class="flag-icon" :class="[locale == 'en' ? 'flag-icon-us' : 'flag-icon-cn']"></i>
         </a>
         <ul class="dropdown-menu dropdown-menu-right text-sm locale">
           <li>
@@ -169,6 +165,7 @@ const setLocale = (locale) => {
               :class="{ active: locale == 'en' }"
               @click="setLocale('en')"
             >
+              <i class="flag-icon flag-icon-us mr-2"></i>
               English
             </button>
           </li>
@@ -179,15 +176,10 @@ const setLocale = (locale) => {
               :class="{ active: locale == 'zh_CN' }"
               @click="setLocale('zh_CN')"
             >
+              <i class="flag-icon flag-icon-cn mr-2"></i>
               中国人
             </button>
           </li>
-          <!-- <a href="#" class="dropdown-item" @click="setLocale('en')" :class="{ active: locale == 'en' }">
-            English
-          </a>
-          <a href="#" class="dropdown-item" @click="setLocale('zh_CN')" :class="{ active: locale == 'zh_CN' }">
-            中国人
-          </a> -->
         </ul>
       </li>
       <li
@@ -207,7 +199,10 @@ const setLocale = (locale) => {
         <ul class="dropdown-menu dropdown-menu-right text-sm">
           <li>
             <form @submit.prevent="logout">
-              <button type="submit" class="dropdown-item hover:rounded-sm hover:bg-gray-50 focus:bg-gray-50 focus:text-black py-1.5">
+              <button
+                type="submit"
+                class="dropdown-item hover:rounded-sm hover:bg-gray-50 focus:bg-gray-50 focus:text-black py-1.5"
+              >
                 <i class="fa-solid fa-right-from-bracket mr-2"></i>Logout
               </button>
             </form>

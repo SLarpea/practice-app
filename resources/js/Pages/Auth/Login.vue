@@ -1,10 +1,11 @@
 <script setup>
 import { Head, useForm } from "@inertiajs/vue3";
-import { inject } from 'vue';
 import { toast } from "vue3-toastify";
 import AuthenticationCard from "@/Components/AuthenticationCard.vue";
 import Checkbox from "@/Components/Checkbox.vue";
 import InputError from "@/Components/InputError.vue";
+import PageLoader from "@/Components/PageLoader.vue";
+import { ref } from "vue";
 
 defineProps({
   canResetPassword: Boolean,
@@ -17,7 +18,7 @@ const form = useForm({
   remember: false,
 });
 
-const global = inject('globalVar');
+const isLoading = ref(false);
 
 const submit = () => {
   form
@@ -26,22 +27,23 @@ const submit = () => {
       remember: form.remember ? "on" : "",
     }))
     .post(route("login"), {
-      onStart: () => global.isLoading = true,
+      onStart: () => isLoading.value = true,
       onSuccess: (page) => {
         let name = page.props.auth.user.name;
         toast(`Welcome Back, <strong>${name}</strong>`, {
           type: "success",
           dangerouslyHTMLString: true,
         })
-        global.isLoading = false
+        isLoading.value = false
       },
-      onError: () => global.isLoading = false,
+      onError: () => isLoading.value = false,
       onFinish: () => form.reset("password"),
     });
 };
 </script>
 
 <template>
+  <PageLoader :loading="isLoading" />
   <Head title="Log in" />
 
   <AuthenticationCard>

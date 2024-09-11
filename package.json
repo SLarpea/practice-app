@@ -18,6 +18,7 @@
         "vue": "^3.2.31"
     },
     "dependencies": {
+        "echarts": "^5.5.1",
         "lodash": "^4.17.21",
         "vue-i18n": "^9.13.1",
         "vue-sweetalert2": "^5.0.11",

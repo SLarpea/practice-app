@@ -186,7 +186,7 @@ const handleUpdateQueryParams = (val) => {
                           type="button"
                           class="dropdown-item hover:rounded-sm hover:bg-gray-50 focus:bg-gray-50 focus:text-black py-1.5"
                         >
-                          <i class="fa-regular fa-eye mr-2 text-blue-500"></i
+                          <i class="fa-regular fa-eye mr-2 text-violet-500"></i
                           >View Author
                         </button>
                       </li>

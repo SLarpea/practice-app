@@ -86,7 +86,7 @@
 .main-header {
     background-color: #ffffff !important;
     border-bottom: 1px solid #03AED2;
-    box-shadow: rgba(9, 30, 66, 0.25) 0px 4px 8px -2px, rgba(9, 30, 66, 0.08) 0px 0px 0px 1px;
+    box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
 }
 
 .dropdown-menu {
@@ -104,6 +104,7 @@
     background: #03aed2;
     background: -webkit-linear-gradient(165deg, #03aed2 0%, #0395b4 100%);
     background: linear-gradient(165deg, #03aed2 0%, #0395b4 100%);
+    box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
 }
 
 .brand-link {
@@ -165,7 +166,33 @@
 
 .info-box,
 .card {
-    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+    box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+}
+
+.dashboard-stat-card {
+    background-color: #fff;
+    display: flex;
+    flex-direction: column;
+    font-size: 1rem;
+    box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+}
+
+.dashboard-stat-card .total,
+.dashboard-stat-card .daily {
+    padding: 0.8rem;
+    font-size: 1rem;
+}
+
+.dashboard-stat-card .total {
+    display: flex;
+    flex-direction: column;
+}
+
+.dashboard-stat-card .daily {
+    color: #fff;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
 
 .input-group-append .input-group-text {
@@ -431,6 +458,7 @@ section#accueil header>h1 {
     padding: 40px 30px;
     box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
     perspective: 2700px;
+    box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
 }
 
 .container .cover {
