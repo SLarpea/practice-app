@@ -289,7 +289,7 @@ onMounted(() => {
       </div>
 
       <div class="col-lg-4">
-        <div class="card rounded-sm">
+        <div class="card rounded-sm mb-3">
           <div class="card-header border-b-0 bg-cyan-50">
             <h3 class="card-title text-cyan-500 font-medium">
               <i class="fa-solid fa-chart-pie"></i>
@@ -311,6 +311,74 @@ onMounted(() => {
                 <div class="chart-responsive">
                   <Echart :options="chartOptions" :auto-resize="true" />
                 </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card rounded-sm mb-3">
+          <div class="card-header border-b-0 bg-cyan-50">
+            <h3 class="card-title text-cyan-500 font-medium">
+              <i class="fa-solid fa-list-ul"></i>
+              Activity Logs
+            </h3>
+
+            <div class="card-tools">
+              <button type="button" class="btn btn-tool">
+                <i class="fa-solid fa-bars text-cyan-500"></i>
+              </button>
+            </div>
+          </div>
+          <div class="card-body">
+            <div class="row">
+              <div class="col-12">
+                <ol class="activity-feed">
+                  <li class="feed-item">
+                    <p class="text-xs text-gray-500 relative -top-[0.2rem]">Sep 25</p>
+                    <span class="text-sm"
+                      >Responded to need
+                      <a href="#"
+                        >“Volunteer opportunity”</a
+                      ></span
+                    >
+                  </li>
+                  <li class="feed-item">
+                    <p class="text-xs text-gray-500 relative -top-[0.2rem]">Sep 24</p>
+                    <span class="text-sm"
+                      >Added an interest “Volunteer Activities”</span
+                    >
+                  </li>
+                  <li class="feed-item">
+                    <p class="text-xs text-gray-500 relative -top-[0.2rem]">Sep 23</p>
+                    <span class="text-sm"
+                      >Joined the group
+                      <a href="#">“Boardsmanship Forum”</a></span
+                    >
+                  </li>
+                  <li class="feed-item">
+                    <p class="text-xs text-gray-500 relative -top-[0.2rem]">Sep 21</p>
+                    <span class="text-sm"
+                      >Responded to need
+                      <a href="#">“In-Kind Opportunity”</a></span
+                    >
+                  </li>
+                  <li class="feed-item">
+                    <p class="text-xs text-gray-500 relative -top-[0.2rem]">Sep 18</p>
+                    <span class="text-sm"
+                      >Created need
+                      <a href="#"
+                        >“Volunteer Opportunity”</a
+                      ></span
+                    >
+                  </li>
+                  <li class="feed-item">
+                    <p class="text-xs text-gray-500 relative -top-[0.2rem]">Sep 17</p>
+                    <span class="text-sm"
+                      >Attending the event
+                      <a href="#">“Some New Event”</a></span
+                    >
+                  </li>
+                </ol>
               </div>
             </div>
           </div>
