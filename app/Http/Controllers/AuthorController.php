@@ -39,7 +39,8 @@ class AuthorController extends Controller
      */
     public function store(Request $request)
     {
-        $this->authorize('create', User::class);
+        dd($request->all());
+        // $this->authorize('create', User::class);
     }
 
     /**
@@ -63,7 +64,7 @@ class AuthorController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        dd($request->all());
     }
 
     /**

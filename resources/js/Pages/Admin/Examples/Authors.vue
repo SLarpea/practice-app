@@ -15,6 +15,7 @@ const { authors } = toRefs(props);
 
 const global = inject("globalVar");
 const showModal = ref(false);
+const formMethod = ref(null);
 const checkAll = ref(false);
 const checkAllIntermediate = ref(false);
 const checkAllData = ref([]);
@@ -59,6 +60,12 @@ const handleUpdateQueryParams = (val) => {
     },
   });
 };
+
+const showForm = (method) => {
+  showModal.value = true;
+  formMethod.value = method;
+};
+
 </script>
 <template>
   <NewLayout title="Authors" module="Examples">
@@ -72,7 +79,7 @@ const handleUpdateQueryParams = (val) => {
           <button
             type="button"
             class="btn btn-sm bg-cyan-500 hover:bg-cyan-600 text-white"
-            @click="showModal = !showModal"
+            @click="showForm('add')"
           >
             <i class="fa fa-plus-circle mr-2" />Add Author
           </button>
@@ -203,7 +210,6 @@ const handleUpdateQueryParams = (val) => {
         <Pagination :data="authors" />
       </div>
     </div>
-    <!-- Modal -->
-    <AuthorForm :show="showModal" @close-modal="handleCloseModal" />
+    <AuthorForm :show="showModal" :method="formMethod" @close-modal="handleCloseModal" />
   </NewLayout>
 </template>
