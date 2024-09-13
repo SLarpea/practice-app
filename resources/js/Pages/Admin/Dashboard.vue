@@ -104,7 +104,7 @@ onMounted(() => {
 <template>
   <NewLayout title="Dashboard" module="Home">
     <div class="row">
-      <div class="col-lg-8">
+      <div class="col-xl-8">
         <div class="row">
           <div class="col-12 col-sm-6 col-md-6 col-lg-6 col-xl-3">
             <div class="dashboard-stat-card rounded-sm mb-3">
@@ -288,7 +288,7 @@ onMounted(() => {
         </div>
       </div>
 
-      <div class="col-lg-4">
+      <div class="col-xl-4">
         <div class="card rounded-sm mb-3">
           <div class="card-header border-b-0 bg-cyan-50">
             <h3 class="card-title text-cyan-500 font-medium">
@@ -336,10 +336,7 @@ onMounted(() => {
                   <li class="feed-item">
                     <p class="text-xs text-gray-500 relative -top-[0.2rem]">Sep 25</p>
                     <span class="text-sm"
-                      >Responded to need
-                      <a href="#"
-                        >“Volunteer opportunity”</a
-                      ></span
+                      >Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</span
                     >
                   </li>
                   <li class="feed-item">
